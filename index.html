@@ -3,28 +3,27 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>OCM SOPR Chart</title>
+  <title>Realized Profit Chart</title>
   <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 </head>
 <body style="margin:0;background-color:#18181D;color:white;font-family:Inter,sans-serif;">
   <div id="chart" style="width:100%;max-width:900px;height:500px;margin:auto;"></div>
 
   <script>
-    fetch("/api/sopr")
+    fetch("/api/realized_profit")
       .then(res => res.json())
       .then(result => {
-        const data = result.data; // Get the array from the API response
-
+        const data = result.data;
         const x = data.map(item => item.date);
-        const y = data.map(item => item.sopr);
+        const y = data.map(item => item.realized_profit);
 
         Plotly.newPlot("chart", [{
-          x: x,
-          y: y,
+          x,
+          y,
           type: "scatter",
           mode: "lines",
           line: { color: "#1F7120", width: 2 },
-          name: "SOPR"
+          name: "Realized Profit"
         }], {
           paper_bgcolor: "#18181D",
           plot_bgcolor: "#18181D",
