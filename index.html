@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Realized Profit Chart</title>
+  <title>OCM Realized Profit Chart</title>
   <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 </head>
 <body style="margin:0;background-color:#18181D;color:white;font-family:Inter,sans-serif;">
@@ -14,16 +14,17 @@
       .then(res => res.json())
       .then(result => {
         const data = result.data;
-        const x = data.map(item => item.date);
-        const y = data.map(item => item.realized_profit);
+        const entries = data.map(d => [d.date, d.realized_profit]);
+        const x = entries.map(([date]) => date);
+        const y = entries.map(([_, val]) => val);
 
         Plotly.newPlot("chart", [{
-          x,
-          y,
+          x: x,
+          y: y,
           type: "scatter",
           mode: "lines",
-          line: { color: "#1F7120", width: 2 },
-          name: "Realized Profit"
+          line: { color: "#E97B0C", width: 2 },
+          name: "Realized Profit (USD)"
         }], {
           paper_bgcolor: "#18181D",
           plot_bgcolor: "#18181D",
@@ -34,8 +35,9 @@
           legend: { orientation: "h", x: 0.5, xanchor: "center", y: -0.2 }
         });
       })
-      .catch(() => {
+      .catch(err => {
         document.getElementById("chart").innerHTML = `<p style="color:red;text-align:center">Failed to load data.</p>`;
+        console.error(err);
       });
   </script>
 </body>
